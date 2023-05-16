@@ -1,6 +1,9 @@
 
 
 export default defineNuxtConfig({
+    runtimeConfig:{
+      apiBase:process.env.API_BASE
+    },
     postcss:{
         plugins: {
             'postcss-import': {},
@@ -12,10 +15,10 @@ export default defineNuxtConfig({
         transpile:[],
     },
     css:[
-        '~/assets/style/App.scss',
-        '~/assets/style/Tailwind.config/Tailwind.base.scss',
-        '~/assets/style/Tailwind.config/Tailwind.component.scss',
-        '~/assets/style/Tailwind.config/Tailwind.utilities.scss',
+        '~/assets/style/App.css',
+        '~/assets/style/Tailwind.config/Tailwind.base.css',
+        '~/assets/style/Tailwind.config/Tailwind.component.css',
+        '~/assets/style/Tailwind.config/Tailwind.utilities.css',
     ],
     app:{
         rootId:'v-app',
