@@ -62,7 +62,7 @@ usersRoute.post('/',(req,res)=>{
 
         })
     }else{
-        res.status(401).send('missing required body')
+        res.status(401).send('All inputs are required!')
     }
 
 })

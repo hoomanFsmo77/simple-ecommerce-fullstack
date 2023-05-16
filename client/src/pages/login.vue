@@ -13,7 +13,7 @@
           </button>
           <p>
             Don't you have account?
-            <NuxtLink :to="{name:'SING'}">sing in</NuxtLink>
+            <NuxtLink :to="{name:'SIGN'}">sign in</NuxtLink>
           </p>
         </div>
 
@@ -31,6 +31,7 @@ const userInfo=reactive({
   username:'' as string,
   password:'' as string
 })
+const isLogin=useState('isLogin')
 const userData:any=useState('userData',()=>null)
 const message=ref<string>('')
 const submitHandler = async () => {
@@ -44,8 +45,10 @@ const submitHandler = async () => {
       }
     })
     userData.value=userInformation
+    isLogin.value=true
     navigateTo({name:'HOME'})
   }catch (err) {
+    isLogin.value=false
     message.value='Error in server! please try again.'
   }
 }
