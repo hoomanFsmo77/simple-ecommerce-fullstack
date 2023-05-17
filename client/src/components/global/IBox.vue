@@ -1,14 +1,16 @@
 <template>
   <div class="my-1.5">
-    <input @input="inputHandler($event)" :placeholder="placeholder" :class="[`input-${size}`]" class="input" :type="type">
+    <input :value="modelValue" v-bind="$attrs" @input="inputHandler($event)" :placeholder="placeholder" :class="[`input-${size}`]" class="input" :type="type">
   </div>
 </template>
 
 <script setup lang="ts">
-const {placeholder,type,size}=defineProps<{
+const props=defineProps<{
   size:string,
   placeholder:string,
-  type:string
+  type:string,
+  value:string,
+  modelValue:string
 }>()
 const emit=defineEmits<{
   (ev:'input',value:any):void,
@@ -17,7 +19,7 @@ const emit=defineEmits<{
 
 const inputHandler = (ev:InputEvent) => {
   const value=(ev.target as HTMLInputElement).value
-  emit('input',value)
+  // emit('input',value)
   emit('update:modelValue',value)
 }
 

@@ -7,5 +7,19 @@
   .btn{
     @apply border-none bg-indigo-400 py-0.5 px-0.6 text-light rounded-8 focus:ring-4 focus:ring-indigo-300 transition-all
   }
-
+  .btn-red{
+    @apply !bg-red-500 focus:!ring-red-300
+  }
+  .btn-blue{
+    @apply !bg-sky-500 focus:!ring-sky-300
+  }
+  .btn-green{
+    @apply !bg-green-500 focus:!ring-green-200
+  }
+  .modal{
+    @apply  w-[35vw] h-[300px] bg-light p-1.5 rounded-4
+  }
+  .modal-wrapper{
+    @apply fixed top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center bg-[rgba(0,0,0,0.3)]
+  }
 }

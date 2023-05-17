@@ -1,9 +1,10 @@
 <template>
-  <NuxtPage></NuxtPage>
+cart
 </template>
 
 <script setup lang="ts">
-definePageMeta({redirect:{name:'HOME'}})
+definePageMeta({name:'CART'})
+
 </script>
 
 <style scoped>

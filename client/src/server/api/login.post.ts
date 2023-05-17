@@ -3,7 +3,6 @@ import {readBody, setCookie} from "h3";
 export default defineEventHandler(async ev=>{
     const {apiBase}=useRuntimeConfig()
     const body=await readBody(ev)
-    console.log(body)
     try {
         const {username,firstname,lastname,token}:any=await $fetch(apiBase+'/api/login',{
             method:'POST',

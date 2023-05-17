@@ -29,7 +29,6 @@ usersRoute.delete('/:id',(req,res)=>{
     const deleteQuery=`DELETE FROM users WHERE id=${id}`
     if(id){
         db.ecommerceDB.query(deleteQuery,(error,value)=>{
-            console.log(value)
             if(error){
                 res.status(400).send('error in connecting to db')
             }else if(value.affectedRows>0){
