@@ -9,14 +9,16 @@
     <p>
       lastname: {{lastname}}
     </p>
-    <div>
-
+    <div class="flex gap-2 mt-1">
+      <UserEdit :id="id"/>
+      <UserDelete :id="id"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const props=defineProps<{
+  id:number,
   username:string,
   lastname:string,
   firstname:string

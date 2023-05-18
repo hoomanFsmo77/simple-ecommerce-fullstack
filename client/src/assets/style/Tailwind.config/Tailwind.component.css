@@ -17,7 +17,7 @@
     @apply !bg-green-500 focus:!ring-green-200
   }
   .modal{
-    @apply  w-[35vw] h-[300px] bg-light p-1.5 rounded-4
+    @apply  w-[35vw] h-[350px] bg-light p-1.5 rounded-4
   }
   .modal-wrapper{
     @apply fixed top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center bg-[rgba(0,0,0,0.3)]

@@ -10,7 +10,7 @@ usersRoute.get('/',(req,res)=>{
     const limit=req.query.limit
     database.select('*').from('users').then(response=>{
         const target=response.map(item=>{
-            return {username:item.username,firstname:item.firstname,lastname:item.lastname}
+            return {username:item.username,firstname:item.firstname,lastname:item.lastname,id:item.id}
         })
         if(limit){
             res.status(200).send(target.slice(0,limit))

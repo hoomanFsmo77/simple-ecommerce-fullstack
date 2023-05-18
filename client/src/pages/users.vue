@@ -2,10 +2,11 @@
     <section id="users">
       <div class="container p-2">
         <h2 class="text-light text-center">Users</h2>
-
+        <UserAdd />
         <div class="div grid grid-cols-4 gap-2 mt-4" v-if="!pending">
           <UserCard
               v-for="item in usersList"
+              :id="item.id"
               :username="item.username"
               :lastname="item.lastname"
               :firstname="item.firstname"
