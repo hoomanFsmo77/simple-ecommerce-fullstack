@@ -1,24 +1,22 @@
 const express=require('express')
-const db=require('../database')
+const database=require('../database')
 const loginRoute=express.Router()
 
 loginRoute.post('/',(req,res)=>{
     const body=req.body
     if(body.username && body.password){
-        const getUserQuery=`SELECT * FROM users WHERE username="${body.username}" AND password=${body.password}`
-        db.ecommerceDB.query(getUserQuery,(error,value)=>{
-            if(error){
-                res.status(400).send('User not found!')
-            }else if(value.length>0){
-                res.status(200).send({
-                    username:value[0].username,
-                    firstname:value[0].firstname,
-                    lastname:value[0].lastname,
-                    token:value[0].token
-                })
-            }else{
-                res.status(400).send('User not found!')
-            }
+        database('users').select('*').where({
+            username:body.username,
+            password:body.password
+        }).then(response=>{
+            res.status(200).send({
+                username:response[0].username,
+                firstname:response[0].firstname,
+                lastname:response[0].lastname,
+                token:response[0].token
+            })
+        }).catch(err=>{
+            res.status(400).send('User not found!')
         })
     }else{
         res.status(400).send('All inputs is needed to be filled!')

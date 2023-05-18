@@ -27,6 +27,11 @@
 
 <script setup lang="ts">
 definePageMeta({name:'LOGIN',layout:false});
+useHead({
+  bodyAttrs:{
+    style:'background-color:#fff !important'
+  }
+})
 const userInfo=reactive({
   username:'' as string,
   password:'' as string

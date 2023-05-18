@@ -1,5 +1,5 @@
 const express=require('express')
-const db=require('../database')
+const database=require('../database')
 const usersRoute=express.Router()
 const crypto=require('crypto')
 const checkBody = (body) => {
@@ -8,57 +8,50 @@ const checkBody = (body) => {
 
 usersRoute.get('/',(req,res)=>{
     const limit=req.query.limit
-    const getQuery=`SELECT * FROM users`
-    db.ecommerceDB.query(getQuery,(error,value)=>{
-        if(error) {
-            res.status(400).send('error in connecting to db')
+    database.select('*').from('users').then(response=>{
+        const target=response.map(item=>{
+            return {username:item.username,firstname:item.firstname,lastname:item.lastname}
+        })
+        if(limit){
+            res.status(200).send(target.slice(0,limit))
         }else{
-            const target=value.map(item=>{
-                return {username:item.username,firstname:item.firstname,lastname:item.lastname}
-            })
-            if(limit){
-                res.status(200).send(target.slice(0,limit))
-            }else{
-                res.status(200).send(target)
-            }
+            res.status(200).send(target)
         }
+    }).catch(err=>{
+        res.status(400).send('error in connecting to db')
     })
 })
 usersRoute.delete('/:id',(req,res)=>{
     const id=req.params.id
-    const deleteQuery=`DELETE FROM users WHERE id=${id}`
     if(id){
-        db.ecommerceDB.query(deleteQuery,(error,value)=>{
-            if(error){
-                res.status(400).send('error in connecting to db')
-            }else if(value.affectedRows>0){
-                res.status(201).send(`user by id : ${id} removed`)
-            }else{
-                res.status(404).send('user not found!')
-            }
+        database.from('users').where('id',id).del().then(response=>{
+            res.status(201).send(`user by id : ${id} removed`)
+        }).catch(err=>{
+            res.status(400).send('error in connecting to db')
         })
-
     }else{
         res.status(404).send('missing required params id')
     }
-
 })
 usersRoute.post('/',(req,res)=>{
     const body=req.body
     if(checkBody(body)){
         const generateRandomToken=crypto.randomBytes(32).toString("hex")
-        const createUserQuery=`INSERT INTO users VALUES(NULL,"${body.username}","${body.firstname}","${body.lastname}","${generateRandomToken}",${body.password})`
-        db.ecommerceDB.query(createUserQuery,(error,value)=>{
-            if(error){
-                res.status(400).send('error in connecting to db')
-            }else{
-                res.status(201).send({
-                    msg:'user created',
-                    userId:value.insertId,
-                    token:generateRandomToken
-                })
-            }
-
+        database('users').insert({
+            id:null,
+            username:body.username,
+            firstname:body.firstname,
+            lastname:body.lastname,
+            token:generateRandomToken,
+            password:body.password
+        }).then(response=>{
+            res.status(201).send({
+                msg:'user created',
+                userId:response.insertId,
+                token:generateRandomToken
+            })
+        }).catch(err=>{
+            res.status(400).send('error in connecting to db')
         })
     }else{
         res.status(401).send('All inputs are required!')
@@ -68,32 +61,29 @@ usersRoute.post('/',(req,res)=>{
 usersRoute.put('/:id',(req,res)=>{
     const id=req.params.id
     const body=req.body
-    const updatedComp=Object.entries(body).map(item=>{
-        if(item[0]==='password'){
-            return `${item[0]}=${item[1]}`
-        }else if(item[0]==='firstname' || item[0]==='lastname' || item[0]==='username'){
-            return `${item[0]}="${item[1]}"`
-        }
-    }).join(',')
-
     if(id ){
-        const updateUserQuery=`UPDATE users SET ${updatedComp} WHERE id=${id}`
-        db.ecommerceDB.query(updateUserQuery,(error,value)=>{
-           if(error){
-               res.status(401).send('error in db')
-           }else{
-               res.status(202).send('user edited')
-           }
+        database('users').where('id',id).update(body).then(response=>{
+            res.status(202).send('user edited')
+        }).catch(err=>{
+            res.status(401).send('error in db')
         })
-
     }else{
         res.status(404).send('missing required params id ')
     }
 
 })
+usersRoute.get('/:id',(req,res)=>{
+    const id=req.params.id
+    if(id){
+        database('users').select(['firstname','lastname','username']).where('id',id).then(response=>{
+            res.status(200).send(response)
+        }).catch(err=>{
+            res.status(401).send('error in db')
+        })
+    }else{
+        res.status(404).send('missing required params id ')
+    }
 
-
-
-
+})
 
 module.exports=usersRoute

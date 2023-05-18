@@ -28,6 +28,11 @@
 
 <script setup lang="ts">
 definePageMeta({name:'SIGN',layout:false})
+useHead({
+  bodyAttrs:{
+    style:'background-color:#fff !important'
+  }
+})
 const userInfo=reactive({
   firstname:'' as string,
   lastname:'' as string,
