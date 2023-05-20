@@ -24,6 +24,11 @@
           </NuxtLink>
         </li>
       </ul>
+      <p class="ml-auto">
+        <NuxtLink class="text-light !text-1" :to="{name:'CART'}">
+          Cart
+        </NuxtLink>
+      </p>
     </div>
   </nav>
 </template>
