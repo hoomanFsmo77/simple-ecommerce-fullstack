@@ -15,11 +15,11 @@ export const useProductStore=()=>{
 
 export const useCartStore=()=>{
     const cartStore=Cart()
-
-
-
+    const cartLength=computed(()=>cartStore.getCartLength)
+    const cartList=computed(()=>cartStore.getCartList)
+    const totalPrice=computed(()=>cartStore.getTotalPrice)
 
     return{
-        cartStore
+        cartStore,cartLength,cartList,totalPrice
     }
 }

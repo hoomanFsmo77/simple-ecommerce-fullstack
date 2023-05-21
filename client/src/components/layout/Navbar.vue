@@ -26,7 +26,7 @@
       </ul>
       <p class="ml-auto">
         <NuxtLink class="text-light !text-1" :to="{name:'CART'}">
-          Cart
+          Cart({{cartLength}})
         </NuxtLink>
       </p>
     </div>
@@ -34,7 +34,9 @@
 </template>
 
 <script lang="ts" setup>
+import {useCartStore} from "~/composables/useStore";
 
+const {cartLength}=useCartStore()
 
 
 </script>

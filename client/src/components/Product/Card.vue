@@ -33,6 +33,16 @@ const addToCart = () => {
   cartStore.addToCart(props.id)
 }
 
+
+
+if(process.client){
+  cartStore.$subscribe(()=>{
+    localStorage.setItem('x_cart_x',JSON.stringify(cartStore.cartList))
+  })
+}
+
+
+
 </script>
 
 <style scoped>
